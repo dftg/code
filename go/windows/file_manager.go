@@ -14,10 +14,10 @@ import (
 
 // FileManager implements file manager window
 type FileManager struct {
-	window       *walk.MainWindow
-	searchEdit   *walk.LineEdit
-	dirLabel     *walk.Label
-	filesListBox *walk.ListBox
+	window         *walk.MainWindow
+	fileFilterEdit *walk.LineEdit
+	dirLabel       *walk.Label
+	filesListBox   *walk.ListBox
 
 	// current directory
 	dir string
@@ -62,10 +62,8 @@ func (fm *FileManager) applyFileFilter(filter string) {
 
 // must be called synchronized
 func (fm *FileManager) onFilterChanged() {
-	fm.window.Synchronize(func() {
-		filter := fm.searchEdit.Text()
-		fm.applyFileFilter(filter)
-	})
+	filter := fm.fileFilterEdit.Text()
+	fm.applyFileFilter(filter)
 }
 
 // must be called synchronized
@@ -129,16 +127,13 @@ func createFileManager(startDir string) (*FileManager, error) {
 		Layout:   declarative.VBox{},
 		Children: []declarative.Widget{
 			declarative.LineEdit{
-				AssignTo:      &fm.searchEdit,
+				AssignTo:      &fm.fileFilterEdit,
 				Visible:       true,
 				CueBanner:     "Enter file filter",
 				OnTextChanged: fm.onFilterChanged,
 				OnKeyUp: func(key walk.Key) {
-					// TODO: why OnKeyDown is not triggered?
 					if key == walk.KeyEscape {
-						fm.window.Synchronize(func() {
-							fm.searchEdit.SetText("")
-						})
+						fm.fileFilterEdit.SetText("")
 					}
 				},
 			},
