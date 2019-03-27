@@ -7,6 +7,7 @@ import (
 	"net/http"
 )
 
+// :show start
 func showImageSize(uri string) {
 	resp, err := http.Get(uri)
 	if err != nil {
@@ -23,6 +24,8 @@ func showImageSize(uri string) {
 	size := img.Bounds().Size()
 	fmt.Printf("Size of the '%s' image: %dx%d\n", uri, size.X, size.Y)
 }
+
+// :show end
 
 func main() {
 	showImageSize("https://www.programming-books.io/covers/Go.png")
