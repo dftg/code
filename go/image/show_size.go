@@ -22,7 +22,9 @@ func showImageSize(uri string) {
 		log.Fatalf("png.Decode() failed with '%s'\n", err)
 	}
 	size := img.Bounds().Size()
-	fmt.Printf("Size of the '%s' image: %dx%d\n", uri, size.X, size.Y)
+	fmt.Printf("Image '%s'\n", uri)
+	fmt.Printf("  size: %dx%d\n", size.X, size.Y)
+	fmt.Printf("  format in memory: '%T'\n", img)
 }
 
 // :show end
